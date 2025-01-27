@@ -1,23 +1,67 @@
-# Assignment - 3
+# Assignment - 6
 
-Welcome to the Meeting Room Booking System! This README file will guide you through setting up and using the application. Below are the essential details of the project:
-To install dependencies:
+Welcome to Zeroo Fashion E-commerce! This README file will guide you through setting up and using the application. Below are the key features and functionalities of this full-stack e-commerce platform built with Next.js:
 
-## Project Name
+## Overview
 
-### Meeting Room Booking System
+Zeroo Fashion is a comprehensive e-commerce solution offering both user shopping experience and admin management capabilities. The platform enables secure transactions, efficient product management, and seamless order processing.
+
+## Core Objectives
+
+- Create a responsive e-commerce platform
+- Implement secure user authentication
+- Provide intuitive product management for admins
+- Enable smooth checkout and payment processing
+- Ensure efficient order management
+- Maintain user profiles and shopping history
+
+### E-commerce
 
 ## Live URL
 
-### [Meeting Room Booking System](https://meetspacemanager.vercel.app)
+### [Zeroo Fashion](https://meetspacemanager.vercel.app)
 
 ## Features
 
-- User Authentication: Sign up and login functionality for both users and admins.
-- Room Management: Admins can create, update, delete, and retrieve details about rooms.
-- Slot Management: Admins can create time slots for rooms, specifying the date, start time, and end time.
-- Booking Management: Users can book available time slots for meeting rooms, view booking details, and receive real-time feedback on room availability.
-- Validation and Error Handling: Robust mechanisms to ensure smooth user interactions and informative messages on booking conflicts or validation errors.
+### Admin Features
+
+- **User Management**
+
+  - View and manage user list with CRUD operations
+  - Access detailed user profiles and modify user permissions
+
+- **Room Management**
+
+  - Create, update, and delete meeting rooms
+  - Set room capacity, amenities, and pricing
+  - Monitor room utilization and availability
+
+- **Slot Management**
+  - Create and manage time slots for rooms
+  - Configure booking durations and blackout periods
+  - Real-time slot availability updates
+- **Booking Overview**
+  - View all bookings across rooms
+  - Track booking status and payments
+  - Generate usage reports
+
+### User Features
+
+- **Authentication & Profile**
+  - Secure signup and login
+  - Profile management with booking history
+- **Room Booking**
+
+  - Browse available rooms with filters
+  - View room details and amenities
+  - Book slots with instant confirmation
+  - Real-time availability checks
+
+- **System Features**
+  - Input validation and error handling
+  - Booking conflict prevention
+  - Automated confirmation emails
+  - Secure payment processing
 
 ## Technology Stack
 
@@ -70,103 +114,10 @@ bun run build
 bun run prod
 ```
 
-### Usage
-
-1. **Access the Application**
-   Open your browser and navigate to `http://localhost:5000` (or the port you specified).
-
-2. **Admin Operations**
-
-   - **Create a Room:**
-     ```js
-     POST /api/rooms
-     Authorization: Bearer <token>
-     Content-Type: application/json
-     {
-       "name": "Conference Room",
-       "roomNo": 201,
-       "floorNo": 1,
-       "capacity": 20,
-       "pricePerSlot": 100,
-       "amenities": ["Projector", "Whiteboard"]
-     }
-     ```
-   - **Update a Room:**
-
-     ```js
-     PUT /api/rooms/:id
-     Authorization: Bearer <token>
-     Content-Type: application/json
-     {
-       "pricePerSlot": 150
-     }
-     ```
-
-   - **Delete a Room:**
-
-     ```js
-     DELETE /api/rooms/:id
-     Authorization: Bearer <token>
-     ```
-
-   - **Create a Slot:**
-     ```js
-     POST /api/slots
-     Authorization: Bearer <token>
-     Content-Type: application/json
-     {
-       "room": "60d9c4e4f3b4b544b8b8d1c5",
-       "date": "2024-06-15",
-       "startTime": "09:00",
-       "endTime": "14:00"
-     }
-     ```
-
-3. **User Operations**
-
-   - **Sign Up:**
-
-     ```js
-     POST /api/auth/signup
-     Content-Type: application/json
-     {
-       "name": "John Doe",
-       "email": "john@example.com",
-       "password": "password123",
-       "phone": "1234567890",
-       "role": "user",
-       "address": "123 Main Street, City, Country"
-     }
-     ```
-
-   - **Login:**
-
-     ```js
-     POST /api/auth/login
-     Content-Type: application/json
-     {
-       "email": "john@example.com",
-       "password": "password123"
-     }
-     ```
-
-   - **Book a Room:**
-     ```js
-     POST /api/bookings
-     Authorization: Bearer <token>
-     Content-Type: application/json
-     {
-       "room": "60d9c4e4f3b4b544b8b8d1c5",
-       "slots": ["60d9c4e4f3b4b544b8b8d1c6", "60d9c4e4f3b4b544b8b8d1c7"],
-       "date": "2024-06-15",
-       "totalAmount": 200
-     }
-     ```
-
 ## Project Structure
 
 ```bash
-meeting-room-booking-system/
+zeroo-backend/
 ├── src/
 │   ├── app/
 │   ├── app.ts
