@@ -7,7 +7,7 @@ import {
   createProductIntoDB,
   deleteProductByIdFormDB,
   getAllProductsFromDB,
-  getProductByIdFromDB,
+  getProductByNameFromDB,
   updateProductByIdIntoDB,
 } from "./product.service";
 
@@ -25,7 +25,7 @@ export const createProduct: RequestHandler = catchAsync(async (req, res) => {
 export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
   const {
     searchTerm,
-    capacityFilter,
+    category,
     priceFilter,
     sortOrder,
     currentPage,
@@ -37,11 +37,11 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
 
   const filters = {
     searchTerm: searchTerm?.toString() || "",
-    capacityFilter: capacityFilter ? Number(capacityFilter) : 0,
+    FCategory: category as string,
     priceFilter: priceFilter ? Number(priceFilter) : 0,
     sortOrder:
-      sortOrder === "asc" || sortOrder === "desc"
-        ? (sortOrder as "asc" | "desc")
+      sortOrder === "asc" || sortOrder === "desc" || sortOrder === "new"
+        ? (sortOrder as "asc" | "desc" | "new")
         : undefined,
   };
 
@@ -62,9 +62,9 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
 });
 
 //? This function is used to handle the request to get a Product by id
-export const getProductById: RequestHandler = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const result = await getProductByIdFromDB(id);
+export const getProductByName: RequestHandler = catchAsync(async (req, res) => {
+  const { name } = req.params;
+  const result = await getProductByNameFromDB(name);
 
   if (!result) {
     sendResponse(res, {

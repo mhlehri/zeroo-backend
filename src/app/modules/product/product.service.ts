@@ -12,9 +12,9 @@ export const createProductIntoDB = async (data: TProduct) => {
 //?   service for getting all products
 interface ProductFilters {
   searchTerm?: string;
-  capacityFilter?: number;
+  FCategory?: string;
   priceFilter?: number;
-  sortOrder?: "asc" | "desc";
+  sortOrder?: "asc" | "desc" | "new";
 }
 
 export const getAllProductsFromDB = async (
@@ -22,7 +22,7 @@ export const getAllProductsFromDB = async (
   page: number,
   limit: number
 ): Promise<{ products: TProduct[]; total: number }> => {
-  const { searchTerm, capacityFilter, priceFilter, sortOrder } = filters;
+  const { searchTerm, FCategory, priceFilter, sortOrder } = filters;
 
   // Build the query object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,12 +31,12 @@ export const getAllProductsFromDB = async (
   };
 
   if (searchTerm) {
-    query.name = { $regex: searchTerm, $options: "i" }; // Case-insensitive search
+    query.name = { $regex: searchTerm, $options: "i" };
   }
 
-  // if (capacityFilter) {
-  //   query.capacity = { $gte: capacityFilter }; // Filter by minimum capacity
-  // }
+  if (FCategory) {
+    query.category = { $regex: FCategory, $options: "i" };
+  }
 
   if (priceFilter) {
     query.price = { $lte: priceFilter }; // Filter by maximum price
@@ -48,19 +48,25 @@ export const getAllProductsFromDB = async (
       ? { price: 1 }
       : sortOrder === "desc"
       ? { price: -1 }
+      : sortOrder === "new"
+      ? { createdAt: -1 }
       : {};
 
   // Pagination
   const skip = (page - 1) * limit;
 
+  console.log(FCategory, "category");
   const products = await Product.find(query).sort(sort).skip(skip).limit(limit);
   const total = await Product.countDocuments(query);
+  console.log(products, "total");
   return { products, total };
 };
 
-//? service for getting Product by id
-export const getProductByIdFromDB = async (id: string) => {
-  const res = await Product.findById(id);
+//? service for getting Product by name
+export const getProductByNameFromDB = async (name: string) => {
+  const res = await Product.findOne({
+    name,
+  });
   return res;
 };
 

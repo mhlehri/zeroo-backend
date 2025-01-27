@@ -8,7 +8,7 @@ import Stripe from "stripe";
 import config from "./app/config";
 
 const app: Application = express();
-const api = config.appApi;
+const api = "https://zeroo-xi.vercel.app/";
 const secret = config.stripeSecretKey;
 app.use(cors({ origin: api, credentials: true }));
 app.use(cookieParser());

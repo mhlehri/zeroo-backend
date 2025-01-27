@@ -15,7 +15,7 @@ export const addBookingIntoDB = async (data: Partial<TBooking>) => {
   }
 
   //? total amount calculation
-  const totalAmount = isRoomExists!.pricePerSlot * data.slots!.length;
+  const totalAmount = isRoomExists!.price * data.slots!.length;
 
   //? update bookings is available
   for (let index = 0; index < data.slots!.length; index++) {
