@@ -55,18 +55,14 @@ export const getAllProductsFromDB = async (
   // Pagination
   const skip = (page - 1) * limit;
 
-  console.log(FCategory, "category");
   const products = await Product.find(query).sort(sort).skip(skip).limit(limit);
   const total = await Product.countDocuments(query);
-  console.log(products, "total");
   return { products, total };
 };
 
 //? service for getting Product by name
-export const getProductByNameFromDB = async (name: string) => {
-  const res = await Product.findOne({
-    name,
-  });
+export const getProductByIdFromDB = async (id: string) => {
+  const res = await Product.findById(id);
   return res;
 };
 

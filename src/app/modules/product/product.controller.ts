@@ -7,7 +7,7 @@ import {
   createProductIntoDB,
   deleteProductByIdFormDB,
   getAllProductsFromDB,
-  getProductByNameFromDB,
+  getProductByIdFromDB,
   updateProductByIdIntoDB,
 } from "./product.service";
 
@@ -62,9 +62,9 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
 });
 
 //? This function is used to handle the request to get a Product by id
-export const getProductByName: RequestHandler = catchAsync(async (req, res) => {
-  const { name } = req.params;
-  const result = await getProductByNameFromDB(name);
+export const getProductById: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await getProductByIdFromDB(id);
 
   if (!result) {
     sendResponse(res, {

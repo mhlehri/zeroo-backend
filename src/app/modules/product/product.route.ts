@@ -5,7 +5,7 @@ import {
   createProduct,
   deleteProductById,
   getAllProduct,
-  getProductByName,
+  getProductById,
   updateProductById,
 } from "./product.controller";
 import { productValidationSchema } from "./product.validation";
@@ -19,7 +19,7 @@ router.post(
   createProduct
 );
 router.get("/", getAllProduct);
-router.get("/:name", getProductByName);
+router.get("/:id", getProductById);
 router.put("/:id", auth("admin"), updateProductById);
 router.delete("/:id", auth("admin"), deleteProductById);
 
