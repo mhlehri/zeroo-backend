@@ -66,3 +66,13 @@ export const getUserByIdFromDB = async (id: string) => {
   const res = await User.findById(id);
   return res;
 };
+
+export const updateUserByIdIntoDB = async (
+  id: string,
+  data: Partial<TUser>
+) => {
+  const res = await User.findByIdAndUpdate({ _id: id }, data, {
+    new: true,
+  });
+  return res;
+};

@@ -7,6 +7,7 @@ import {
   getAllUsersFromDB,
   getUserByIdFromDB,
   getUserFromDB,
+  updateUserByIdIntoDB,
 } from "./user.service";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
@@ -57,7 +58,7 @@ export const deleteUserById: RequestHandler = catchAsync(async (req, res) => {
   }
 
   sendResponse(res, {
-    message: "Category deleted successfully",
+    message: "User deleted successfully",
     data: result,
   });
 });
@@ -76,7 +77,22 @@ export const getUserById: RequestHandler = catchAsync(async (req, res) => {
   }
 
   sendResponse(res, {
-    message: "Product retrieved successfully",
+    message: "User retrieved successfully",
+    data: result,
+  });
+});
+
+export const updateUserById: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const data = req.body;
+  const result = await updateUserByIdIntoDB(id, data);
+
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Failed to update");
+  }
+
+  sendResponse(res, {
+    message: "User updated successfully",
     data: result,
   });
 });
