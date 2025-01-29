@@ -50,10 +50,12 @@ export const getAllProductsFromDB = async (
       ? { price: -1 }
       : sortOrder === "new"
       ? { createdAt: -1 }
-      : {};
+      : { createdAt: -1 };
 
   // Pagination
   const skip = (page - 1) * limit;
+
+  limit = sortOrder === "new" ? 10 : limit;
 
   const products = await Product.find(query).sort(sort).skip(skip).limit(limit);
   const total = await Product.countDocuments(query);
@@ -79,7 +81,9 @@ export const updateProductByIdIntoDB = async (
 
 //? service for deleting Product by id
 export const deleteProductByIdFormDB = async (id: string) => {
+  console.log(id, "id");
   const found = await Product.findById(id);
+  console.log(found, "found");
   if (found?.isDeleted)
     throw new AppError(httpStatus.NOT_ACCEPTABLE, `Product is already deleted`);
 

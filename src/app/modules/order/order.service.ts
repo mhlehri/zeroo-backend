@@ -82,11 +82,8 @@ export const getMyBookingsFromDB = async (id: string) => {
 export const getAllBookingsFromDB = async () => {
   const res = await Booking.find({
     isDeleted: false,
-  })
-    .sort({
-      date: -1,
-    })
-    .populate("room slots user");
+    createdAt: -1,
+  }).populate("product");
 
   return res;
 };

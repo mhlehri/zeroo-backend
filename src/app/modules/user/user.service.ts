@@ -50,3 +50,14 @@ export const getUserFromDB = async (data: {
 
   return { token, result };
 };
+
+//? service for getting all users
+export const getAllUsersFromDB = async () => {
+  const users = await User.find();
+  return users;
+};
+
+export const deleteUserByIdFormDB = async (id: string) => {
+  const res = await User.deleteOne({ _id: id });
+  return res;
+};

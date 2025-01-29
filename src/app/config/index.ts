@@ -10,4 +10,7 @@ export default {
   expiresIn: process.env.JWT_EXPIRES_IN,
   stripeSecretKey: process.env.STRIPE_SECRET_KEY,
   appApi: process.env.APP_API,
+  cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
+  cloudinaryKey: process.env.CLOUDINARY_API_KEY,
+  cloudinarySecret: process.env.CLOUDINARY_API_SECRET,
 };

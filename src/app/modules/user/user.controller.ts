@@ -1,6 +1,14 @@
+import { RequestHandler } from "express";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { createUserIntoDB, getUserFromDB } from "./user.service";
+import {
+  createUserIntoDB,
+  deleteUserByIdFormDB,
+  getAllUsersFromDB,
+  getUserFromDB,
+} from "./user.service";
+import AppError from "../../errors/AppError";
+import httpStatus from "http-status";
 
 //? This function is used to handle the request to create a user
 export const createUser = catchAsync(async (req, res) => {
@@ -27,4 +35,28 @@ export const getUser = catchAsync(async (req, res) => {
       token: result?.token,
       data: result?.result,
     });
+});
+
+export const getAllUsers = catchAsync(async (req, res) => {
+  const result = await getAllUsersFromDB();
+  res.json({
+    success: true,
+    statusCode: 200,
+    message: "User logged in successfully",
+    data: result,
+  });
+});
+
+export const deleteUserById: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await deleteUserByIdFormDB(id);
+  if (!result) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete");
+  }
+
+  sendResponse(res, {
+    message: "Category deleted successfully",
+    data: result,
+  });
 });
