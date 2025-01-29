@@ -61,3 +61,8 @@ export const deleteUserByIdFormDB = async (id: string) => {
   const res = await User.deleteOne({ _id: id });
   return res;
 };
+
+export const getUserByIdFromDB = async (id: string) => {
+  const res = await User.findById(id);
+  return res;
+};

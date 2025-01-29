@@ -5,6 +5,7 @@ import {
   createUserIntoDB,
   deleteUserByIdFormDB,
   getAllUsersFromDB,
+  getUserByIdFromDB,
   getUserFromDB,
 } from "./user.service";
 import AppError from "../../errors/AppError";
@@ -57,6 +58,25 @@ export const deleteUserById: RequestHandler = catchAsync(async (req, res) => {
 
   sendResponse(res, {
     message: "Category deleted successfully",
+    data: result,
+  });
+});
+export const getUserById: RequestHandler = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await getUserByIdFromDB(id);
+
+  if (!result) {
+    sendResponse(res, {
+      success: false,
+      statusCode: httpStatus.NOT_FOUND,
+      message: "No Data Found",
+      data: [],
+    });
+    return;
+  }
+
+  sendResponse(res, {
+    message: "Product retrieved successfully",
     data: result,
   });
 });
