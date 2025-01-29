@@ -81,9 +81,7 @@ export const updateProductByIdIntoDB = async (
 
 //? service for deleting Product by id
 export const deleteProductByIdFormDB = async (id: string) => {
-  console.log(id, "id");
   const found = await Product.findById(id);
-  console.log(found, "found");
   if (found?.isDeleted)
     throw new AppError(httpStatus.NOT_ACCEPTABLE, `Product is already deleted`);
 
