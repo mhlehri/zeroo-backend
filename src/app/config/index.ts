@@ -13,4 +13,5 @@ export default {
   cloudinaryName: process.env.CLOUDINARY_CLOUD_NAME,
   cloudinaryKey: process.env.CLOUDINARY_API_KEY,
   cloudinarySecret: process.env.CLOUDINARY_API_SECRET,
+  server_url: process.env.SERVER_URL,
 };

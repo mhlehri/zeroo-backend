@@ -1,26 +1,25 @@
 import { z } from "zod";
 
-export const bookingValidationSchema = z.object({
-  room: z.string({
-    message: "Room reference is required",
-  }),
-  slots: z.array(
-    z.string({
-      message: "Slot reference is required",
+export const ordersValidationSchema = z.object({
+  user: z.string().optional(),
+  name: z.string().optional(),
+  email: z.string().optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+  transactionId: z.string().optional(),
+  products: z.array(
+    z.object({
+      product: z.string(),
+      quantity: z.number().default(1),
     })
   ),
-  user: z.string({
-    message: "User reference is required",
+  paymentMethod: z.enum(["online", "cash"]).default("cash"),
+  paymentStatus: z.enum(["paid", "pending", "failed"]).default("pending"),
+  totalAmount: z.number({
+    message: "Total amount is required",
   }),
-  totalAmount: z
-    .number()
-    .nonnegative("Total amount must be a non-negative number")
-    .optional(),
-  date: z.string({
-    message: "Date is required",
-  }),
-  isConfirmed: z
-    .enum(["confirmed", "unconfirmed", "canceled"])
+  status: z
+    .enum(["confirmed", "unconfirmed", "canceled", "delivered", "rejected"])
     .default("unconfirmed"),
   isDeleted: z.boolean().default(false),
 });

@@ -1,26 +1,21 @@
 import { Router } from "express";
 import { auth } from "../../middlewares/auth";
 import {
-  addBooking,
-  deleteBooking,
-  getAllBookings,
-  getMyBookings,
-  updateBooking,
+  addOrder,
+  deleteOrder,
+  getAllOrders,
+  getMyOrders,
+  updateOrder,
 } from "./order.controller";
 import validateRequest from "../../middlewares/validateRequest";
-import { bookingValidationSchema } from "./order.validation";
+import { ordersValidationSchema } from "./order.validation";
 
 const router = Router();
 
-router.get("/bookings", auth("admin"), getAllBookings);
-router.post(
-  "/bookings",
-  auth("user", "admin"),
-  validateRequest(bookingValidationSchema),
-  addBooking
-);
-router.put("/bookings/:id", auth("admin"), updateBooking);
-router.delete("/bookings/:id", auth("admin"), deleteBooking);
-router.get("/my-bookings", auth("user", "admin"), getMyBookings);
+router.get("/", auth("admin"), getAllOrders);
+router.post("/", validateRequest(ordersValidationSchema), addOrder);
+router.put("/:id", auth("admin"), updateOrder);
+router.delete("/:id", auth("admin"), deleteOrder);
+router.get("/my-orders", auth("user"), getMyOrders);
 
-export const bookingRouter = router;
+export const orderRouter = router;

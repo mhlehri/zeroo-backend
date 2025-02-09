@@ -1,65 +1,97 @@
 import httpStatus from "http-status";
+import { v4 as uuidv4 } from "uuid";
 import AppError from "../../errors/AppError";
-import Room from "../product/product.model";
-import { TBooking } from "./order.interface";
-import Booking from "./order.model";
-import Slot from "../slot/slot.model";
-import User from "../user/user.model";
+import { initiatePayment } from "../../utils/payment";
+import Product from "../product/product.model";
+import { TOrder } from "./order.interface";
+import Order from "./order.model";
 
-//? service for adding booking
-export const addBookingIntoDB = async (data: Partial<TBooking>) => {
-  //? check if room exists
-  const isRoomExists = await Room.findOne({ _id: data.room, isDeleted: false });
-  if (!isRoomExists) {
-    throw new AppError(httpStatus.NOT_FOUND, "Room not found!");
-  }
+//? service for adding Order
+export const addOrderIntoDB = async (data: Partial<TOrder>) => {
+  console.log(data, "data");
+  //? update Orders is available
+  for (let index = 0; index < data.products!.length; index++) {
+    const re = await Product.findOne({
+      _id: data.products![index].product,
+      isDeleted: false,
+    });
 
-  //? total amount calculation
-  const totalAmount = isRoomExists!.price * data.slots!.length;
-
-  //? update bookings is available
-  for (let index = 0; index < data.slots!.length; index++) {
-    const re = await Slot.findOneAndUpdate(
-      { _id: data.slots![index], isBooked: false },
-      {
-        isBooked: true,
-      },
-      {
-        new: true,
-      }
-    );
     if (!re) {
       throw new AppError(
         httpStatus.NOT_FOUND,
-        `Slot \`${data.slots![index]}\` not found or is already booked`
+        `Product \`${data.products![index].product}\` not found`
+      );
+    }
+    if (re?.stock < data.products![index].quantity) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `Product \`${data.products![index].product}\` is out of stock`
       );
     }
   }
+  console.log(data, "data");
 
-  //? check if user exists
-  const isUserExists = await User.exists({ _id: data.user });
-  if (!isUserExists) {
-    throw new AppError(httpStatus.NOT_FOUND, "User not found!");
+  if (data.paymentMethod === "online") {
+    const transactionId = uuidv4();
+    data.transactionId = transactionId;
+
+    const paymentSession = await initiatePayment({
+      transactionId,
+      totalPrice: data.totalAmount!,
+      customerName: data.name!,
+      customerAddress: data.address!,
+      customerEmail: data.email!,
+      customerPhone: data.phone!,
+    });
+    console.log(paymentSession, "paymentSession");
+    if (!paymentSession) {
+      throw new AppError(500, "Failed to initiate payment");
+    }
+    const res = await (
+      await Order.create(data)
+    ).populate({
+      path: "products.product",
+    });
+    if (!res) {
+      throw new AppError(500, "Failed to place order");
+    }
+    // Update product quantities after order creation
+    for (const orderProduct of data.products!) {
+      await Product.findByIdAndUpdate(orderProduct.product, {
+        $inc: { stock: -orderProduct.quantity },
+      });
+    }
+    return paymentSession;
+  } else {
+    const res = await (
+      await Order.create(data)
+    ).populate({
+      path: "products.product",
+    });
+    if (!res) {
+      throw new AppError(500, "Failed to place order");
+    }
+    // Update product quantities after order creation
+    for (const orderProduct of data.products!) {
+      await Product.findByIdAndUpdate(orderProduct.product, {
+        $inc: { stock: -orderProduct.quantity },
+      });
+    }
+    return res;
   }
-  const res = (await Booking.create({ totalAmount, ...data })).populate(
-    "room slots user"
-  );
 
+  // Create the order
+};
+
+//? service for updating Order
+export const updateOrderIntoDB = async (id: string, data: Partial<TOrder>) => {
+  const res = await Order.findByIdAndUpdate(id, data, { new: true });
   return res;
 };
 
-//? service for updating booking
-export const updateBookingIntoDB = async (
-  id: string,
-  data: Partial<TBooking>
-) => {
-  const res = await Booking.findByIdAndUpdate(id, data, { new: true });
-  return res;
-};
-
-//? service for deleting booking
-export const deleteBookingFromDB = async (id: string) => {
-  const res = await Booking.findByIdAndUpdate(
+//? service for deleting Order
+export const deleteOrderFromDB = async (id: string) => {
+  const res = await Order.findByIdAndUpdate(
     id,
     { isDeleted: true },
     { new: true }
@@ -67,23 +99,51 @@ export const deleteBookingFromDB = async (id: string) => {
   return res;
 };
 
-//? service for getting my bookings (user bookings)
-export const getMyBookingsFromDB = async (id: string) => {
-  const res = await Booking.find({ user: id })
+//? service for getting my Orders (user Orders)
+export const getMyOrdersFromDB = async (id: string, email: string) => {
+  const query: {
+    user?: string;
+    email?: string;
+  } = {};
+  if (id) {
+    query["user"] = id;
+  }
+  if (email) {
+    query["email"] = email;
+  }
+  const res = await Order.find(query)
     .sort({
       date: -1,
     })
-    .populate("room slots user");
+    .populate("products.product user");
 
   return res;
 };
 
-//? service for getting all bookings
-export const getAllBookingsFromDB = async () => {
-  const res = await Booking.find({
+//? service for getting all Orders
+export const getAllOrdersFromDB = async (query: { today?: boolean }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const filter: any = {
     isDeleted: false,
-    createdAt: -1,
-  }).populate("product");
+  };
+
+  if (query.today) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    filter.createdAt = {
+      $gte: today,
+      $lt: tomorrow,
+    };
+  }
+
+  const res = await Order.find(filter)
+    .sort({
+      createdAt: -1,
+    })
+    .populate("products.product");
 
   return res;
 };

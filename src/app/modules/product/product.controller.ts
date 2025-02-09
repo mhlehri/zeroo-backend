@@ -23,17 +23,8 @@ export const createProduct: RequestHandler = catchAsync(async (req, res) => {
 
 //? This function is used to handle the request to get all Products
 export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
-  const {
-    searchTerm,
-    category,
-    priceFilter,
-    sortOrder,
-    currentPage,
-    productsPerPage,
-  } = req.query;
-
-  const page = Number(currentPage);
-  const limit = Number(productsPerPage);
+  const { searchTerm, category, priceFilter, sortOrder, page, limit } =
+    req.query;
 
   const filters = {
     searchTerm: searchTerm?.toString() || "",
@@ -45,7 +36,11 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
         : undefined,
   };
 
-  const result = await getAllProductsFromDB(filters, page, limit);
+  const result = await getAllProductsFromDB(
+    filters,
+    Number(page),
+    Number(limit)
+  );
 
   if (!result?.products?.length)
     sendResponse(res, {

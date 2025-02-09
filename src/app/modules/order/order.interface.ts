@@ -1,11 +1,24 @@
-export type TisConfirmed = "confirmed" | "unconfirmed" | "rejected";
+export type OrderStatus =
+  | "confirmed"
+  | "unconfirmed"
+  | "rejected"
+  | "cancelled"
+  | "delivered";
 
-export type TBooking = {
-  room: string;
-  slots: [string];
+export type TOrder = {
   user: string;
-  totalAmount?: number;
-  date: string;
-  isConfirmed: TisConfirmed;
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  transactionId: string;
+  paymentStatus: "paid" | "pending" | "failed";
+  paymentMethod: "online" | "cash";
+  products: {
+    product: string;
+    quantity: number;
+  }[];
+  totalAmount: number;
+  orderStatus: OrderStatus;
   isDeleted: boolean;
 };
