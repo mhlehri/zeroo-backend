@@ -20,6 +20,12 @@ export const productValidationSchema = z.object({
       message: "Price is required",
     })
     .nonnegative("Price must be a non-negative number"),
+  discountPrice: z.number().optional(),
+  discountType: z.string().optional(),
+  sku: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  variants: z.array(z.object({})).optional(),
+  isPublished: z.boolean().optional(),
   images: z.array(
     z.string({
       message: "images are required",
