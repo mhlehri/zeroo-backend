@@ -8,6 +8,18 @@ const CategorySchema = new Schema<TCategory>(
       type: String,
       required: true,
     },
+    subCategories: {
+      type: [
+        {
+          name: { type: String, required: true, unique: true },
+          image: { type: String, required: true },
+          isPublished: { type: Boolean, default: false },
+          isDeleted: { type: Boolean, default: false },
+        },
+      ],
+      default: [],
+    },
+    isPublished: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
