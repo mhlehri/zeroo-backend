@@ -17,7 +17,7 @@ const CategorySchema = new Schema<TCategory>(
           isDeleted: { type: Boolean, default: false },
         },
       ],
-      default: [],
+      required: false,
     },
     isPublished: { type: Boolean, default: false },
     isDeleted: { type: Boolean, default: false },

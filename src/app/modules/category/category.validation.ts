@@ -10,13 +10,17 @@ export const categoryValidationSchema = z.object({
         name: z.string({
           message: "Name is required",
         }),
-        image: z.string(),
-        isPublished: z.boolean().default(false),
-        isDeleted: z.boolean().default(false),
+        image: z.string({
+          message: "Image is required",
+        }),
+        isPublished: z.boolean().default(false).optional(),
+        isDeleted: z.boolean().default(false).optional(),
       })
     )
     .optional(),
-  isPublished: z.boolean().default(false),
-  image: z.string(),
+  isPublished: z.boolean().default(false).optional(),
+  image: z.string({
+    message: "Image is required",
+  }),
   isDeleted: z.boolean().default(false).optional(),
 });

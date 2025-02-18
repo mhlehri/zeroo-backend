@@ -5,9 +5,10 @@ export type TCategory = {
   image: string;
   isDeleted: boolean;
 };
+
 export type TSubCategory = {
   name: string;
   isPublished?: boolean;
-  image: string;
-  isDeleted: boolean;
+  image?: string;
+  isDeleted?: boolean;
 };
