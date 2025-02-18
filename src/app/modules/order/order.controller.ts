@@ -14,7 +14,7 @@ import AppError from "../../errors/AppError";
 export const getAllOrders = catchAsync(async (req, res) => {
   const { today } = req.query;
   const result = await getAllOrdersFromDB({ today: today === "yes" });
-  if (!result.length) {
+  if (!result.orders.length) {
     sendResponse(res, {
       success: false,
       statusCode: httpStatus.NOT_FOUND,

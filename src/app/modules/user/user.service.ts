@@ -53,8 +53,12 @@ export const getUserFromDB = async (data: {
 
 //? service for getting all users
 export const getAllUsersFromDB = async () => {
-  const users = await User.find();
-  return users;
+  const query = {
+    isDeleted: false,
+  };
+  const users = await User.find(query);
+  const total = await User.countDocuments(query);
+  return { users, total };
 };
 
 export const deleteUserByIdFormDB = async (id: string) => {

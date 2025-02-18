@@ -139,11 +139,12 @@ export const getAllOrdersFromDB = async (query: { today?: boolean }) => {
     };
   }
 
-  const res = await Order.find(filter)
+  const orders = await Order.find(filter)
     .sort({
       createdAt: -1,
     })
     .populate("products.product");
+  const total = await Order.countDocuments(filter);
 
-  return res;
+  return { orders, total };
 };

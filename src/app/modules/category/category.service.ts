@@ -10,12 +10,14 @@ export const createCategoryIntoDB = async (data: TCategory) => {
 };
 
 export const getAllCategoriesFromDB = async () => {
-  const categories = await Category.find({
+  const query = {
     isDeleted: false,
-  });
+  };
 
-  const result = await Category.countDocuments();
-  return { categories, total: result };
+  const categories = await Category.find(query);
+  const total = await Category.countDocuments(query);
+
+  return { categories, total };
 };
 
 //? service for getting Category by id
