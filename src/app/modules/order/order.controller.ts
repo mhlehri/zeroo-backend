@@ -13,7 +13,7 @@ import AppError from "../../errors/AppError";
 //? This function is used to handle the request to get all Orders
 export const getAllOrders = catchAsync(async (req, res) => {
   const { today } = req.query;
-  const result = await getAllOrdersFromDB({ today: today === "true" });
+  const result = await getAllOrdersFromDB({ today: today === "yes" });
   if (!result.length) {
     sendResponse(res, {
       success: false,
