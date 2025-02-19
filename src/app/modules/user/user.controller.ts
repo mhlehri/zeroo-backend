@@ -44,7 +44,7 @@ export const getAllUsers = catchAsync(async (req, res) => {
   res.json({
     success: true,
     statusCode: 200,
-    message: "User logged in successfully",
+    message: "User retrieved successfully",
     data: result,
   });
 });
