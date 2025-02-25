@@ -11,7 +11,7 @@ const CategorySchema = new Schema<TCategory>(
     subCategories: {
       type: [
         {
-          name: { type: String, required: true, unique: true },
+          name: { type: String, required: true },
           isPublished: { type: Boolean, default: true },
           isDeleted: { type: Boolean, default: false },
         },
@@ -26,3 +26,4 @@ const CategorySchema = new Schema<TCategory>(
 const Category = model<TCategory>("Category", CategorySchema);
 
 export default Category;
+

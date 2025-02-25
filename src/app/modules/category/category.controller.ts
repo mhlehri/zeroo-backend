@@ -82,9 +82,7 @@ export const updateCategoryById: RequestHandler = catchAsync(
 //? This function is used to handle the request to add a SubCategory to a Category
 export const addSubCategoryToCategory: RequestHandler = catchAsync(
   async (req, res) => {
-    const { id: categoryId } = req.params;
-    const { name } = req.body;
-
+    const { categoryId, name } = req.body;
     const result = await addSubCategoryToCategoryIntoDB(categoryId, name);
 
     if (!result) {

@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TCategory, TSubCategory } from "./category.interface";
+import { TCategory } from "./category.interface";
 import Category from "./category.model";
 
 //? service for adding Category
@@ -40,28 +40,43 @@ export const updateCategoryByIdIntoDB = async (
 //? service for adding sub category
 export const addSubCategoryToCategoryIntoDB = async (
   id: string,
-  subCategory: TSubCategory
+  name: string
 ) => {
-  const found = await Category.findById(id);
-  if (!found) throw new AppError(httpStatus.NOT_FOUND, "Category not found");
-
-  // Initialize subCategories array if it doesn't exist
-  if (!found.subCategories) {
-    found.subCategories = [];
+  const category = await Category.findById(id);
+  if (!category) {
+    throw new AppError(httpStatus.NOT_FOUND, "Category not found");
   }
 
-  const index = found.subCategories.findIndex(
-    (subCat) => subCat.name === subCategory.name
+  // Initialize subCategories if undefined
+  if (!category.subCategories) {
+    category.subCategories = [];
+  }
+
+  // Check if the subcategory already exists
+  const subCategoryExists = category.subCategories.some(
+    (subCat) => subCat.name.toLowerCase() === name.toLowerCase()
   );
 
-  if (index === -1) {
-    found.subCategories.push(subCategory);
-  } else {
-    found.subCategories[index] = subCategory;
+  if (subCategoryExists) {
+    throw new AppError(httpStatus.CONFLICT, "Subcategory already exists");
   }
 
-  const res = await found.save();
-  return res;
+  // Use $addToSet to avoid duplicates and ensure subCategories exists
+  const updatedCategory = await Category.findByIdAndUpdate(
+    id,
+    {
+      $addToSet: {
+        subCategories: {
+          name,
+          isPublished: true,
+          isDeleted: false,
+        },
+      },
+    },
+    { new: true }
+  );
+
+  return updatedCategory;
 };
 
 //? service for deleting Category by id

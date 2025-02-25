@@ -9,7 +9,10 @@ import {
   getCategoryById,
   updateCategoryById,
 } from "./category.controller";
-import { categoryValidationSchema } from "./category.validation";
+import {
+  categoryValidationSchema,
+  subCategoryValidationSchema,
+} from "./category.validation";
 
 const router = Router();
 
@@ -23,9 +26,9 @@ router.get("/", getAllCategory);
 router.get("/:id", getCategoryById);
 router.put("/:id", auth("admin"), updateCategoryById);
 router.post(
-  "/:id/sub-categories",
+  "/sub-categories",
   auth("admin"),
-  validateRequest(categoryValidationSchema),
+  validateRequest(subCategoryValidationSchema),
   addSubCategoryToCategory
 );
 router.delete("/:id", auth("admin"), deleteCategoryById);
