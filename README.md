@@ -1,10 +1,10 @@
 # Assignment - 6
 
-Welcome to Zeroo Fashion E-commerce! This README file will guide you through setting up and using the application. Below are the key features and functionalities of this full-stack e-commerce platform built with Next.js:
+Welcome to Rongberong Fashion E-commerce! This README file will guide you through setting up and using the application. Below are the key features and functionalities of this full-stack e-commerce platform built with Next.js:
 
 ## Overview
 
-Zeroo Fashion is a comprehensive e-commerce solution offering both user shopping experience and admin management capabilities. The platform enables secure transactions, efficient product management, and seamless order processing.
+Rongberong Fashion is a comprehensive e-commerce solution offering both user shopping experience and admin management capabilities. The platform enables secure transactions, efficient product management, and seamless order processing.
 
 ## Core Objectives
 
@@ -19,7 +19,7 @@ Zeroo Fashion is a comprehensive e-commerce solution offering both user shopping
 
 ## Live URL
 
-### [Zeroo Fashion](https://meetspacemanager.vercel.app)
+### [Rongberong Fashion](https://meetspacemanager.vercel.app)
 
 ## Features
 
@@ -117,7 +117,7 @@ bun run prod
 ## Project Structure
 
 ```bash
-zeroo-backend/
+Rongberong-backend/
 ├── src/
 │   ├── app/
 │   ├── app.ts

@@ -12,7 +12,6 @@ const CategorySchema = new Schema<TCategory>(
       type: [
         {
           name: { type: String, required: true, unique: true },
-          image: { type: String, required: true },
           isPublished: { type: Boolean, default: false },
           isDeleted: { type: Boolean, default: false },
         },
