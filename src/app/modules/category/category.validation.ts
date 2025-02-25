@@ -15,7 +15,6 @@ export const categoryValidationSchema = z.object({
       })
     )
     .optional(),
-  isPublished: z.boolean().default(false).optional(),
   image: z.string({
     message: "Image is required",
   }),
