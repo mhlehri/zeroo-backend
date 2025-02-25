@@ -4,6 +4,7 @@ import AppError from "../../errors/AppError";
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import {
+  addSubCategoryToCategoryIntoDB,
   createCategoryIntoDB,
   deleteCategoryByIdFormDB,
   getAllCategoriesFromDB,
@@ -73,6 +74,25 @@ export const updateCategoryById: RequestHandler = catchAsync(
 
     sendResponse(res, {
       message: "Category updated successfully",
+      data: result,
+    });
+  }
+);
+
+//? This function is used to handle the request to add a SubCategory to a Category
+export const addSubCategoryToCategory: RequestHandler = catchAsync(
+  async (req, res) => {
+    const { id: categoryId } = req.params;
+    const { name } = req.body;
+
+    const result = await addSubCategoryToCategoryIntoDB(categoryId, name);
+
+    if (!result) {
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to add SubCategory");
+    }
+
+    sendResponse(res, {
+      message: "SubCategory added successfully",
       data: result,
     });
   }

@@ -12,7 +12,7 @@ const CategorySchema = new Schema<TCategory>(
       type: [
         {
           name: { type: String, required: true, unique: true },
-          isPublished: { type: Boolean, default: false },
+          isPublished: { type: Boolean, default: true },
           isDeleted: { type: Boolean, default: false },
         },
       ],

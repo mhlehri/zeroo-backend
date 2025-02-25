@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TCategory } from "./category.interface";
+import { TCategory, TSubCategory } from "./category.interface";
 import Category from "./category.model";
 
 //? service for adding Category
@@ -34,6 +34,33 @@ export const updateCategoryByIdIntoDB = async (
   const res = await Category.findByIdAndUpdate({ _id: id }, data, {
     new: true,
   });
+  return res;
+};
+
+//? service for adding sub category
+export const addSubCategoryToCategoryIntoDB = async (
+  id: string,
+  subCategory: TSubCategory
+) => {
+  const found = await Category.findById(id);
+  if (!found) throw new AppError(httpStatus.NOT_FOUND, "Category not found");
+
+  // Initialize subCategories array if it doesn't exist
+  if (!found.subCategories) {
+    found.subCategories = [];
+  }
+
+  const index = found.subCategories.findIndex(
+    (subCat) => subCat.name === subCategory.name
+  );
+
+  if (index === -1) {
+    found.subCategories.push(subCategory);
+  } else {
+    found.subCategories[index] = subCategory;
+  }
+
+  const res = await found.save();
   return res;
 };
 
