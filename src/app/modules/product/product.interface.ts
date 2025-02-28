@@ -2,8 +2,8 @@ export type TProduct = {
   name: string;
   images: string[];
   price: number;
-  discountPrice?: number;
-  discountType?: "percentage" | "amount";
+  discountPrice?: number | null;
+  discountType?: "percentage" | "amount" | "";
   sku?: string;
   description: string;
   category: string;

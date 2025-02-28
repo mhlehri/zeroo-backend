@@ -9,7 +9,7 @@ const ProductSchema = new Schema<TProduct>(
     discountPrice: { type: Number },
     discountType: {
       type: String,
-      enum: ["percentage", "amount"],
+      enum: ["percentage", "amount", ""],
       default: "percentage",
     },
     sku: { type: String },

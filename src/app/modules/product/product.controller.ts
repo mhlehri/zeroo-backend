@@ -13,8 +13,9 @@ import {
 
 //? This function is used to handle the request to create a Product
 export const createProduct: RequestHandler = catchAsync(async (req, res) => {
+  console.log(req.body);
   const result = await createProductIntoDB(req.body);
-
+console.log(result);
   sendResponse(res, {
     message: "Product added successfully",
     data: result,
