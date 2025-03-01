@@ -12,7 +12,8 @@ export const createProductIntoDB = async (data: TProduct) => {
 //?   service for getting all products
 interface ProductFilters {
   searchTerm?: string;
-  FCategory?: string;
+  fCategory?: string;
+  fSubCategory?: string;
   priceFilter?: number;
   sortOrder?: "asc" | "desc" | "new";
 }
@@ -22,7 +23,7 @@ export const getAllProductsFromDB = async (
   page: number,
   limit: number
 ): Promise<{ products: TProduct[]; total: number }> => {
-  const { searchTerm, FCategory, priceFilter, sortOrder } = filters;
+  const { searchTerm,  fCategory, fSubCategory, priceFilter, sortOrder } = filters;
 
   // Build the query object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,8 +35,11 @@ export const getAllProductsFromDB = async (
     query.name = { $regex: searchTerm, $options: "i" };
   }
 
-  if (FCategory) {
-    query.category = { $regex: FCategory, $options: "i" };
+  if (fCategory) {
+    query.category = { $regex: fCategory, $options: "i" };
+  }
+  if (fSubCategory) {
+    query.subCategories = { $elemMatch: { name: { $regex: fSubCategory, $options: "i" } } };
   }
 
   if (priceFilter) {
