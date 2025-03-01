@@ -7,6 +7,7 @@ export type TProduct = {
   sku?: string;
   description: string;
   category: string;
+  subCategory: string;
   stock: number;
   tags?: string[];
   variants: TProductVariant[];
