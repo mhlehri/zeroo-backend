@@ -10,6 +10,7 @@ export const productValidationSchema = z.object({
   category: z.string({
     message: "Category is required",
   }),
+  subCategory: z.string().optional(),
   stock: z
     .number({
       message: "Stock quantity is required",
