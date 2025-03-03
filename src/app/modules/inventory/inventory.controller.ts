@@ -4,7 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 
 import { RequestHandler } from "express";
 import AppError from "../../errors/AppError";
-import { addSizeIntoDB } from "./inventory.service";
+import { addSizeIntoDB, addTagIntoDB } from "./inventory.service";
 
 export const addSize = catchAsync(async (req, res) => {
   const { size } = req.body;
@@ -19,7 +19,18 @@ export const addSize = catchAsync(async (req, res) => {
   });
 });
  
-export const addTag = catchAsync(async (req, res) => {});
+export const addTag = catchAsync(async (req, res) => {
+  const { tag } = req.body;
+  if (!tag) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Tag is required");
+  }
+  const result = await addTagIntoDB(tag);
+
+  sendResponse(res, {
+    message: "Tag added successfully",
+    data: result,
+  });
+});
 
 export const getTag = catchAsync(async (req, res) => {});
 export const getSize = catchAsync(async (req, res) => {});
