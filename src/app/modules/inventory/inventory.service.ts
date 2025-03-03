@@ -1,28 +1,37 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
 import { TInventory } from "./inventory.interface";
-import Review from "./inventory.model";
+import Inventory from "./inventory.model";
 
-//? service for creating slot
-export const createReviewIntoDB = async (data: TInventory) => {
-  
-};
+const name = "inventory";
 
-//? service for getting all available slots
-export const getReviewsFromDB = async (productId?: string) => {
+export const addSizeIntoDB = async (size: string): Promise<TInventory> => {
+  const result = await Inventory.findOne({ name: name });
+  console.log(result, "result");
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
+  }
 
+  if (result.sizes.includes(size)) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Size already exists");
+  }
+  const addedSize = await Inventory.findOneAndUpdate(
+    { name: name },
+    {
+      $addToSet: {
+        sizes: [...result.sizes ,size],
+      },
+    },
+    { new: true }
+  );
+  if (!addedSize) {
+    throw new AppError(httpStatus.NOT_FOUND, "Failed to add size");
+  }
+  return addedSize;
+}
+ 
 
-};
-
-//? service for deleting slot by id
-export const deleteReviewByIdFormDB = async (id: string) => {
-  
-};
-
-//? update review isShown by id
-export const updateReviewIsShownIntoDB = async (
-  id: string,
-  isShown: boolean
-) => {
-  
-};
+export const addTagIntoDB = async (tag: string): Promise<TInventory> => {
+  const inventory = new Inventory({ tags: [tag] });
+  return inventory.save();
+}

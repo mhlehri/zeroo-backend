@@ -8,29 +8,15 @@ import {
   deleteTag,
   getSize,
   getTag,
-  updateSize,
-  updateTag
 } from "./inventory.controller";
-import InventoryValidationSchema from "./inventory.validation";
 
 const router = Router();
 
-router.post(
-  "/tag",
-  auth("admin"),
-  validateRequest(InventoryValidationSchema),
-  addTag
-);
-router.post(
-  "/size",
-  auth("admin"),
-  validateRequest(InventoryValidationSchema),
-  addSize
-);
+
 router.get("/tag", auth("admin"), getTag);
 router.get("/size", auth("admin"), getSize);
-router.put("/tag",auth("admin"), updateTag);
-router.put("/size",auth("admin"), updateSize);
+router.put("/tag",auth("admin"), addTag);
+router.put("/size",auth("admin"), addSize);
 router.delete("/tag", auth("admin"), deleteTag);
 router.delete("/size", auth("admin"), deleteSize);
 
