@@ -2,23 +2,31 @@ import { Router } from "express";
 import { auth } from "../../middlewares/auth";
 import validateRequest from "../../middlewares/validateRequest";
 import {
-  createReview,
-  deleteReviewById,
-  getReviews,
-  updateReviewIsShown,
+  addSize,
+  addTag,
+  deleteTag,
+  
+  updateReviewIsShown
 } from "./inventory.controller";
 import InventoryValidationSchema from "./inventory.validation";
 
 const router = Router();
 
 router.post(
-  "/:id",
-  auth("user"),
+  "/tag",
+  auth("admin"),
   validateRequest(InventoryValidationSchema),
-  createReview
+  addTag
 );
-router.get("/:id", getReviews);
-router.delete("/:id", auth("user", "admin"), deleteReviewById);
+router.post(
+  "/size",
+  auth("admin"),
+  validateRequest(InventoryValidationSchema),
+  addSize
+);
+router.get("/tag", );
+router.get("/size", getInventories);
+router.delete("/:id", auth("user", "admin"), deleteTag);
 router.put("/:id", auth("admin"), updateReviewIsShown);
 
 export const reviewRouter = router;

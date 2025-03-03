@@ -1,15 +1,19 @@
 import { Schema, model } from "mongoose";
-import { TReview } from "./inventory.interface";
+import { TInventory } from "./inventory.interface";
 
-const ReviewSchema: Schema = new Schema({
-  productId: { type: String, required: true, ref: "Product" },
-  userId: { type: String, required: true, ref: "User" },
-  rating: { type: Number, required: true },
-  comment: { type: String, required: true },
-  isShown: { type: Boolean, default: true },
-  isDeleted: { type: Boolean, default: false },
+const InventorySchema: Schema = new Schema({
+  sizes: {
+    type: [String],
+    required: true,
+    default: [],
+  },
+  tags: {
+    type: [String],
+    required: true,
+    default: [],
+  },
 });
 
-const Review = model<TReview>("Review", ReviewSchema);
+const Inventory = model<TInventory>("Inventory", InventorySchema);
 
-export default Review;
+export default Inventory;

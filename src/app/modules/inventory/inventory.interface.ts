@@ -1,5 +1,4 @@
-export type TReview = {
+export type TInventory = {
   sizes: string[];
-  colors: string[];
   tags: string[];
 };
