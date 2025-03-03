@@ -23,7 +23,7 @@ export const getAllProductsFromDB = async (
   filters: ProductFilters,
   page: number,
   limit: number
-): Promise<{ products: TProduct[]; total: number }> => {
+): Promise<{ products: TProduct[]; total: number, maximumPrice: number }> => {
   const { searchTerm,  fCategory, fSubCategory, fMinPrice, fMaxPrice, sortOrder } = filters;
 
   // Build the query object
@@ -64,7 +64,8 @@ export const getAllProductsFromDB = async (
 
   const products = await Product.find(query).sort(sort).skip(skip).limit(limit);
   const total = await Product.countDocuments(query);
-  return { products, total };
+  const maxProductPrice = await Product.findOne(query).sort({ price: -1 }).select('price').lean();
+  return { products, total  , maximumPrice : maxProductPrice?.price || 0};
 };
 
 //? service for getting Product by name
