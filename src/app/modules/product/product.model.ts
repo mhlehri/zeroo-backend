@@ -25,7 +25,7 @@ const ProductSchema = new Schema<TProduct>(
     stock: { type: Number, required: true },
     category: { type: String, required: true },
     subCategory: { type: String, default: "" },
-    isPublished: { type: Boolean, default: false },
+    isPublished: { type: Boolean, default: true },
     images: { type: [String], required: true },
   },
   { timestamps: true }
