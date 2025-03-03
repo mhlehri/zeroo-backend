@@ -17,7 +17,7 @@ interface ProductFilters {
   fMinPrice?: number;
   fMaxPrice?: number;
   sortOrder?: "asc" | "desc" | "new";
-  isPublished?: boolean;
+  isPublished?: string;
 }
 
 export const getAllProductsFromDB = async (
@@ -25,12 +25,12 @@ export const getAllProductsFromDB = async (
   page: number,
   limit: number
 ): Promise<{ products: TProduct[]; total: number, maximumPrice: number }> => {
-  const { searchTerm,  fCategory, fSubCategory, fMinPrice, fMaxPrice, sortOrder, isPublished = true } = filters;
+  const { searchTerm,  fCategory, fSubCategory, fMinPrice, fMaxPrice, sortOrder, isPublished = "true" } = filters;
 
   // Build the query object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const query: any = {
-    isPublished: isPublished === true ? true : false,
+    isPublished: isPublished === "true" ? true : false,
   };
 
   if (searchTerm) {

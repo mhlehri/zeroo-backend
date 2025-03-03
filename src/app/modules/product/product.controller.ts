@@ -37,7 +37,7 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
       sortOrder === "asc" || sortOrder === "desc" || sortOrder === "new"
         ? (sortOrder as "asc" | "desc" | "new")
         : undefined,
-  isPublished: isPublished === 'true'
+  isPublished: isPublished?.toString()
   };
 
   const result = await getAllProductsFromDB(
