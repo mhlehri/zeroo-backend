@@ -6,7 +6,7 @@ import {
   deleteReviewByIdFormDB,
   getReviewsFromDB,
   updateReviewIsShownIntoDB,
-} from "./reviews.service";
+} from "./inventory.service";
 import { RequestHandler } from "express";
 import AppError from "../../errors/AppError";
 

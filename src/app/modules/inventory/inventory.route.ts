@@ -6,15 +6,15 @@ import {
   deleteReviewById,
   getReviews,
   updateReviewIsShown,
-} from "./reviews.controller";
-import ReviewValidationSchema from "./reviews.validation";
+} from "./inventory.controller";
+import InventoryValidationSchema from "./inventory.validation";
 
 const router = Router();
 
 router.post(
   "/:id",
   auth("user"),
-  validateRequest(ReviewValidationSchema),
+  validateRequest(InventoryValidationSchema),
   createReview
 );
 router.get("/:id", getReviews);

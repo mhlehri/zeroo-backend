@@ -1,6 +1,6 @@
 import httpStatus from "http-status";
 import AppError from "../../errors/AppError";
-import { TReview } from "./reviews.interface";
+import { TReview } from "./inventory.interface";
 import Review from "./reviews.model";
 
 //? service for creating slot

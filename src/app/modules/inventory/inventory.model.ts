@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { TReview } from "./reviews.interface";
+import { TReview } from "./inventory.interface";
 
 const ReviewSchema: Schema = new Schema({
   productId: { type: String, required: true, ref: "Product" },
