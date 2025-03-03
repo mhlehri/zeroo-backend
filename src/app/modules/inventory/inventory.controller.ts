@@ -4,7 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 
 import { RequestHandler } from "express";
 import AppError from "../../errors/AppError";
-import { addSizeIntoDB, addTagIntoDB, getTagsFromDB } from "./inventory.service";
+import { addSizeIntoDB, addTagIntoDB, getSizesFromDB, getTagsFromDB } from "./inventory.service";
 
 export const addSize = catchAsync(async (req, res) => {
   const { size } = req.body;
@@ -39,7 +39,13 @@ export const getTag = catchAsync(async (req, res) => {
     data: result,
   });
 });
-export const getSize = catchAsync(async (req, res) => {});
+export const getSize = catchAsync(async (req, res) => {
+  const result = await getSizesFromDB();
+  sendResponse(res, {
+    message: "Sizes fetched successfully",
+    data: result,
+  });
+});
 
 export const deleteTag: RequestHandler = catchAsync(async (req, res) => {});
 export const deleteSize: RequestHandler = catchAsync(async (req, res) => {});
