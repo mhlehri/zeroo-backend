@@ -19,7 +19,7 @@ export const addSizeIntoDB = async (size: string): Promise<TInventory> => {
     { name: name },
     {
       $addToSet: {
-        sizes: {$each: [size]},
+        sizes: size,
       },
     },
     { new: true }
@@ -44,7 +44,7 @@ export const addTagIntoDB = async (tag: string): Promise<TInventory> => {
     { name: name },
     {
       $addToSet: {
-        tags: {$each: [tag]},
+        tags: tag,
       },
     },
     { new: true }
