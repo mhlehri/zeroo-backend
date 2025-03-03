@@ -74,3 +74,27 @@ export const getSizesFromDB = async (): Promise<string[]> => {
   }   
   return result.sizes;
 }
+
+export const deleteTagFromDB = async (tag: string): Promise<TInventory> => {
+  const result = await Inventory.findOne({ name: name
+  });
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
+  }
+  if (!result.tags.includes(tag)) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Tag not found");
+  }
+  const deletedTag = await Inventory.findOneAndUpdate(
+    { name: name },
+    {
+      $pull: {
+        tags: tag,
+      },
+    },
+    { new: true }
+  );
+  if (!deletedTag) {
+    throw new AppError(httpStatus.NOT_FOUND, "Failed to delete tag");
+  }
+  return deletedTag;  
+}
