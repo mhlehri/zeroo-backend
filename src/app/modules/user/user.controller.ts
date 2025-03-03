@@ -33,7 +33,7 @@ export const getUser = catchAsync(async (req, res) => {
     .json({
       success: true,
       statusCode: 200,
-      message: "User logged in successfully",
+      message: "Logged in successfully",
       token: result?.token,
       data: result?.result,
     });
