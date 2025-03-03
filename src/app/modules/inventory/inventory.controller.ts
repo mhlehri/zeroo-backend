@@ -4,7 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 
 import { RequestHandler } from "express";
 import AppError from "../../errors/AppError";
-import { addSizeIntoDB, addTagIntoDB, getSizesFromDB, getTagsFromDB } from "./inventory.service";
+import { addSizeIntoDB, addTagIntoDB, deleteTagFromDB, getSizesFromDB, getTagsFromDB } from "./inventory.service";
 
 export const addSize = catchAsync(async (req, res) => {
   const { size } = req.body;
@@ -47,7 +47,17 @@ export const getSize = catchAsync(async (req, res) => {
   });
 });
 
-export const deleteTag: RequestHandler = catchAsync(async (req, res) => {});
+export const deleteTag: RequestHandler = catchAsync(async (req, res) => {
+  const { tag } = req.body;
+  if (!tag) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Tag is required");
+  }
+  const result = await deleteTagFromDB(tag);
+  sendResponse(res, {
+    message: "Tag deleted successfully",
+    data: result,
+  });
+});
 export const deleteSize: RequestHandler = catchAsync(async (req, res) => {});
 
 
