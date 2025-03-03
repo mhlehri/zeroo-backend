@@ -65,3 +65,12 @@ export const getTagsFromDB = async (): Promise<string[]> => {
   return result.tags;
 }
 
+export const getSizesFromDB = async (): Promise<string[]> => {
+  const result = await Inventory.findOne
+    ({ name
+    });
+  if (!result) {  
+    throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
+  }   
+  return result.sizes;
+}
