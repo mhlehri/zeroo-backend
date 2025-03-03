@@ -98,3 +98,27 @@ export const deleteTagFromDB = async (tag: string): Promise<TInventory> => {
   }
   return deletedTag;  
 }
+
+export const deleteSizeFromDB = async (size: string): Promise<TInventory> => {
+  const result = await Inventory.findOne({ name: name
+  });
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
+  }
+  if (!result.sizes.includes(size)) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Size not found");
+  }
+  const deletedSize = await Inventory.findOneAndUpdate(
+    { name: name },
+    {
+      $pull: {
+        sizes: size,
+      },
+    },
+    { new: true }
+  );
+  if (!deletedSize) {
+    throw new AppError(httpStatus.NOT_FOUND, "Failed to delete size");
+  }
+  return deletedSize;
+}
