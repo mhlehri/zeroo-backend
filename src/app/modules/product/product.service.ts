@@ -29,7 +29,7 @@ export const getAllProductsFromDB = async (
   // Build the query object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const query: any = {
-    isDeleted: false,
+    isPublished: true,
   };
 
   if (searchTerm) {
@@ -87,12 +87,12 @@ export const updateProductByIdIntoDB = async (
 //? service for deleting Product by id
 export const deleteProductByIdFormDB = async (id: string) => {
   const found = await Product.findById(id);
-  if (found?.isDeleted)
+  if (found?.isPublished === false)
     throw new AppError(httpStatus.NOT_ACCEPTABLE, `Product is already deleted`);
 
   const res = await Product.findByIdAndUpdate(
     { _id: id },
-    { isDeleted: true },
+    { isPublished: false },
     {
       new: true,
     }

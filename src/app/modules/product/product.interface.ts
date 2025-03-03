@@ -11,7 +11,6 @@ export type TProduct = {
   stock: number;
   tags?: string[];
   variants: TProductVariant[];
-  isDeleted: boolean;
   isPublished?: boolean;
 };
 

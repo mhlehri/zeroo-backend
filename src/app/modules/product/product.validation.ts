@@ -26,11 +26,10 @@ export const productValidationSchema = z.object({
   sku: z.string().optional(),
   tags: z.array(z.string()).optional(),
   variants: z.array(z.object({})).optional(),
-  isPublished: z.boolean().optional(),
+  isPublished: z.boolean().default(true).optional(),
   images: z.array(
     z.string({
       message: "images are required",
     })
   ),
-  isDeleted: z.boolean().default(false).optional(),
 });

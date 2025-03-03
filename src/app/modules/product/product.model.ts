@@ -27,7 +27,6 @@ const ProductSchema = new Schema<TProduct>(
     subCategory: { type: String, default: "" },
     isPublished: { type: Boolean, default: false },
     images: { type: [String], required: true },
-    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true }
 );
