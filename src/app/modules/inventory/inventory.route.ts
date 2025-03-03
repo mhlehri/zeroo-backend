@@ -34,4 +34,4 @@ router.put("/size",auth("admin"), updateSize);
 router.delete("/tag", auth("admin"), deleteTag);
 router.delete("/size", auth("admin"), deleteSize);
 
-export const reviewRouter = router;
+export const inventoryRouter = router;

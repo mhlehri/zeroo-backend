@@ -4,7 +4,7 @@ import { productRouter } from "../modules/product/product.route";
 import { orderRouter } from "../modules/order/order.route";
 import { categoryRouter } from "../modules/category/category.route";
 import { paymentRoutes } from "../modules/payment/payment.route";
-import { reviewRouter } from "../modules/reviews/reviews.route";
+import { inventoryRouter } from "../modules/inventory/inventory.route";
 
 const router = Router();
 
@@ -30,8 +30,8 @@ const moduleRoutes = [
     route: orderRouter,
   },
   {
-    path: "/reviews",
-    route: reviewRouter,
+    path: "/inventory",
+    route: inventoryRouter,
   },
 ];
 
