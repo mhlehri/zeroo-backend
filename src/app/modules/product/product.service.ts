@@ -14,7 +14,8 @@ interface ProductFilters {
   searchTerm?: string;
   fCategory?: string;
   fSubCategory?: string;
-  priceFilter?: number;
+  fMinPrice?: number;
+  fMaxPrice?: number;
   sortOrder?: "asc" | "desc" | "new";
 }
 
@@ -23,7 +24,7 @@ export const getAllProductsFromDB = async (
   page: number,
   limit: number
 ): Promise<{ products: TProduct[]; total: number }> => {
-  const { searchTerm,  fCategory, fSubCategory, priceFilter, sortOrder } = filters;
+  const { searchTerm,  fCategory, fSubCategory, fMinPrice, fMaxPrice, sortOrder } = filters;
 
   // Build the query object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -42,8 +43,8 @@ export const getAllProductsFromDB = async (
     query.subCategories = { $elemMatch: { name: { $regex: fSubCategory, $options: "i" } } };
   }
 
-  if (priceFilter) {
-    query.price = { $lte: priceFilter }; // Filter by maximum price
+  if (fMinPrice && fMaxPrice) {
+    query.price = { $lte: fMaxPrice, $gte: fMinPrice }; 
   }
 
   // Sorting
