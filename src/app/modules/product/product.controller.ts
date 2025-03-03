@@ -109,7 +109,7 @@ export const deleteProductById: RequestHandler = catchAsync(
     }
 
     sendResponse(res, {
-      message: "Product deleted successfully",
+      message: "Product unpublished successfully",
       data: result,
     });
   }
