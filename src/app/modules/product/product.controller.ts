@@ -24,7 +24,7 @@ console.log(result);
 
 //? This function is used to handle the request to get all Products
 export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
-  const { searchTerm, category, subCategory, minPrice, maxPrice, sortOrder, page, limit } =
+  const { searchTerm, category, subCategory, minPrice, maxPrice, sortOrder, page, limit, isPublished } =
     req.query;
 
   const filters = {
@@ -37,6 +37,7 @@ export const getAllProduct: RequestHandler = catchAsync(async (req, res) => {
       sortOrder === "asc" || sortOrder === "desc" || sortOrder === "new"
         ? (sortOrder as "asc" | "desc" | "new")
         : undefined,
+  isPublished: isPublished
   };
 
   const result = await getAllProductsFromDB(
