@@ -4,9 +4,9 @@ import validateRequest from "../../middlewares/validateRequest";
 import {
   addSubCategoryToCategory,
   createCategory,
-  deleteCategoryById,
   getAllCategory,
   getCategoryById,
+  unpublishCategoryById,
   updateCategoryById,
 } from "./category.controller";
 import {
@@ -31,6 +31,6 @@ router.post(
   validateRequest(subCategoryValidationSchema),
   addSubCategoryToCategory
 );
-router.delete("/:id", auth("admin"), deleteCategoryById);
+router.put("/:id", auth("admin"), unpublishCategoryById);
 
 export const categoryRouter = router;
