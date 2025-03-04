@@ -80,17 +80,17 @@ export const addSubCategoryToCategoryIntoDB = async (
 };
 
 //? service for deleting Category by id
-export const deleteCategoryByIdFormDB = async (id: string) => {
+export const unPublishCategoryByIdFormDB = async (id: string) => {
   const found = await Category.findById(id);
-  if (found?.isDeleted)
+  if (found?.isPublished === false)
     throw new AppError(
       httpStatus.NOT_ACCEPTABLE,
-      `Category is already deleted`
+      `Category is already unpublished`
     );
 
   const res = await Category.findByIdAndUpdate(
     { _id: id },
-    { isDeleted: true },
+    { isPublished: false },
     {
       new: true,
     }

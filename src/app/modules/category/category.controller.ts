@@ -6,7 +6,7 @@ import sendResponse from "../../utils/sendResponse";
 import {
   addSubCategoryToCategoryIntoDB,
   createCategoryIntoDB,
-  deleteCategoryByIdFormDB,
+  unPublishCategoryByIdFormDB,
   getAllCategoriesFromDB,
   getCategoryByIdFromDB,
   updateCategoryByIdIntoDB,
@@ -101,7 +101,7 @@ export const deleteCategoryById: RequestHandler = catchAsync(
   async (req, res) => {
     const { id } = req.params;
 
-    const result = await deleteCategoryByIdFormDB(id);
+    const result = await unPublishCategoryByIdFormDB(id);
     if (!result) {
       throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete");
     }
