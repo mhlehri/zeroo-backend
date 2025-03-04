@@ -57,7 +57,7 @@ export const addTagIntoDB = async (tag: string): Promise<TInventory> => {
 
 export const getTagsFromDB = async (): Promise<string[]> => {
   const name = "tags"
-  const result = await Inventory.findOne({ name});
+  const result = await Inventory.findOne({ name}).sort({ items: 1 });
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
@@ -66,7 +66,7 @@ export const getTagsFromDB = async (): Promise<string[]> => {
 
 export const getSizesFromDB = async (): Promise<string[]> => {
   const name = "sizes"
-  const result = await Inventory.findOne({ name});
+  const result = await Inventory.findOne({ name}).sort({ items: 1 });
   if (!result) {  
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }   
