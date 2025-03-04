@@ -2,11 +2,10 @@ export type TCategory = {
   name: string;
   subCategories?: TSubCategory[];
   image: string;
-  isDeleted: boolean;
+  isPublished: boolean;
 };
 
 export type TSubCategory = {
   name: string;
-  isPublished?: boolean;
-  isDeleted?: boolean;
+  isPublished: boolean;
 };
