@@ -11,14 +11,13 @@ export const categoryValidationSchema = z.object({
           message: "Name is required",
         }),
         isPublished: z.boolean().default(true).optional(),
-        isDeleted: z.boolean().default(false).optional(),
       })
     )
     .optional(),
   image: z.string({
     message: "Image is required",
   }),
-  isDeleted: z.boolean().default(false).optional(),
+  isPublished : z.boolean().default(true).optional(),
 });
 
 export const subCategoryValidationSchema = z.object({
@@ -29,5 +28,4 @@ export const subCategoryValidationSchema = z.object({
     message: "Category ID is required",
   }),
   isPublished: z.boolean().default(true).optional(),
-  isDeleted: z.boolean().default(false).optional(),
 });
