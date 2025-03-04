@@ -79,8 +79,8 @@ export const addSubCategoryToCategoryIntoDB = async (
   return updatedCategory;
 };
 
-//? service for deleting Category by id
-export const unPublishCategoryByIdFormDB = async (id: string) => {
+//? service for unpublish Category by id
+export const unpublishCategoryByIdFormDB = async (id: string) => {
   const found = await Category.findById(id);
   if (found?.isPublished === false)
     throw new AppError(

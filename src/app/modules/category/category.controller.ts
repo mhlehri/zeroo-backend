@@ -6,7 +6,7 @@ import sendResponse from "../../utils/sendResponse";
 import {
   addSubCategoryToCategoryIntoDB,
   createCategoryIntoDB,
-  unPublishCategoryByIdFormDB,
+  unpublishCategoryByIdFormDB,
   getAllCategoriesFromDB,
   getCategoryByIdFromDB,
   updateCategoryByIdIntoDB,
@@ -96,18 +96,18 @@ export const addSubCategoryToCategory: RequestHandler = catchAsync(
   }
 );
 
-//? This function is used to handle the request to delete a Category by id
-export const deleteCategoryById: RequestHandler = catchAsync(
+//? This function is used to handle the request to unpublish a Category by id
+export const unpublishCategoryById: RequestHandler = catchAsync(
   async (req, res) => {
     const { id } = req.params;
 
-    const result = await unPublishCategoryByIdFormDB(id);
+    const result = await unpublishCategoryByIdFormDB(id);
     if (!result) {
-      throw new AppError(httpStatus.BAD_REQUEST, "Failed to delete");
+      throw new AppError(httpStatus.BAD_REQUEST, "Failed to unpublish");
     }
 
     sendResponse(res, {
-      message: "Category deleted successfully",
+      message: "Category unpublished successfully",
       data: result,
     });
   }
