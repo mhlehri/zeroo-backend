@@ -17,7 +17,7 @@ const CategorySchema = new Schema<TCategory>(
       ],
       required: false,
     },
-    isPublished: { type: Boolean, default: false },
+    isPublished: { type: Boolean, default: true },
   },
   { timestamps: true }
 );
