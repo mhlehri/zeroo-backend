@@ -3,23 +3,22 @@ import AppError from "../../errors/AppError";
 import { TInventory } from "./inventory.interface";
 import Inventory from "./inventory.model";
 
-const name = "inventory";
-
 export const addSizeIntoDB = async (size: string): Promise<TInventory> => {
+  const name = "sizes"
   const result = await Inventory.findOne({ name: name });
   // console.log(result, "result");
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
 
-  if (result.sizes.includes(size)) {
+  if (result.items.includes(size)) {
     throw new AppError(httpStatus.BAD_REQUEST, "Size already exists");
   }
   const addedSize = await Inventory.findOneAndUpdate(
     { name: name },
     {
       $addToSet: {
-        sizes: size,
+        items: size,
       },
     },
     { new: true }
@@ -31,20 +30,21 @@ export const addSizeIntoDB = async (size: string): Promise<TInventory> => {
 }
  
 export const addTagIntoDB = async (tag: string): Promise<TInventory> => {
+  const name = "tags"
   const result = await Inventory.findOne({ name: name });
   // console.log(result, "result");
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
 
-  if (result.tags.includes(tag)) {
+  if (result.items.includes(tag)) {
     throw new AppError(httpStatus.BAD_REQUEST, "Tag already exists");
   }
   const addedTag = await Inventory.findOneAndUpdate(
     { name: name },
     {
       $addToSet: {
-        tags: tag,
+        items: tag,
       },
     },
     { new: true }
@@ -56,39 +56,38 @@ export const addTagIntoDB = async (tag: string): Promise<TInventory> => {
 }
 
 export const getTagsFromDB = async (): Promise<string[]> => {
-  const result = await Inventory.findOne
-    ({ name
-    });
+  const name = "tags"
+  const result = await Inventory.findOne({ name});
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
-  return result.tags;
+  return result.items;
 }
 
 export const getSizesFromDB = async (): Promise<string[]> => {
-  const result = await Inventory.findOne
-    ({ name
-    });
+  const name = "sizes"
+  const result = await Inventory.findOne({ name});
   if (!result) {  
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }   
-  return result.sizes;
+  return result.items;
 }
 
 export const deleteTagFromDB = async (tag: string): Promise<TInventory> => {
+  const name = "tags"
   const result = await Inventory.findOne({ name: name
   });
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
-  if (!result.tags.includes(tag)) {
+  if (!result.items.includes(tag)) {
     throw new AppError(httpStatus.BAD_REQUEST, "Tag not found");
   }
   const deletedTag = await Inventory.findOneAndUpdate(
     { name: name },
     {
       $pull: {
-        tags: tag,
+        items: tag,
       },
     },
     { new: true }
@@ -100,19 +99,20 @@ export const deleteTagFromDB = async (tag: string): Promise<TInventory> => {
 }
 
 export const deleteSizeFromDB = async (size: string): Promise<TInventory> => {
-  const result = await Inventory.findOne({ name: name
+  const name = "sizes"
+  const result = await Inventory.findOne({ name:name
   });
   if (!result) {
     throw new AppError(httpStatus.NOT_FOUND, "Inventory not found");
   }
-  if (!result.sizes.includes(size)) {
+  if (!result.items.includes(size)) {
     throw new AppError(httpStatus.BAD_REQUEST, "Size not found");
   }
   const deletedSize = await Inventory.findOneAndUpdate(
     { name: name },
     {
       $pull: {
-        sizes: size,
+        items: size,
       },
     },
     { new: true }

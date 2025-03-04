@@ -3,19 +3,12 @@ import { TInventory } from "./inventory.interface";
 
 const InventorySchema: Schema = new Schema({
   name: {
-    type: String, required: true,
-    default: "inventory"
+    type: String, required: true, unique: true
   },
-  sizes: {
-    type: [String],
-    required: true,
-    default: [],
-  },
-  tags: {
-    type: [String],
-    required: true,
-    default: [],
-  },
+  items: {
+    type: Array, required: true,
+    default: []
+  }
 });
 
 const Inventory = model<TInventory>("Inventory", InventorySchema);
