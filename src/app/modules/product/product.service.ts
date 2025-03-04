@@ -88,16 +88,8 @@ export const updateProductByIdIntoDB = async (
 
 //? service for deleting Product by id
 export const deleteProductByIdFormDB = async (id: string) => {
-  const found = await Product.findById(id);
-  if (found?.isPublished === false)
-    throw new AppError(httpStatus.NOT_ACCEPTABLE, `Product is already unpublished`);
-
-  const res = await Product.findByIdAndUpdate(
+    const res = await Product.deleteOne(
     { _id: id },
-    { isPublished: false },
-    {
-      new: true,
-    }
   );
   return res;
 };
